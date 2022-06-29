@@ -5,21 +5,18 @@ function Main(props) {
   const [userName, setUserName] = React.useState();
   const [userDescription, setUserDescription] = React.useState();
   const [userAvatar, setUserAvatar] = React.useState();
+  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    // Promise.all([api.getUserInfo(), api.getInitialCards()])
-    // .then(([userData, cardData]) => {
-    //   profileInfo.setUserInfo(userData);
-    //   cardList.renderItems(cardData.reverse());
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // })
-    api.getUserInfo()
-    .then(({ name, about, avatar }) => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([{ name, about, avatar }, cardData]) => {
       setUserName(name);
       setUserDescription(about);
       setUserAvatar(avatar);
+      setCards(cardData);
+    })
+    .catch((err) => {
+      console.log(err);
     })
   });
 
@@ -39,7 +36,19 @@ function Main(props) {
 
       <section className="elements">
         <ul className="elements__list">
-
+          {cards.map((card) => (
+            <li className="element" key={card._id}>
+              <img className="element__image" src={card.link} alt={card.name} />
+              <button className="element__delete-button" type="button" aria-label="Удалить"></button>
+              <div className="element__image-title-container">
+                <h2 className="element__title">{card.name}</h2>
+                <div className="element__like-container">
+                  <button className="element__like-button" type="button" aria-label="Нравится"></button>
+                  <p className="element__like-counter">{card.likes.length}</p>
+                </div>
+              </div>
+            </li>
+          ))}
         </ul>
       </section>
     </main>
