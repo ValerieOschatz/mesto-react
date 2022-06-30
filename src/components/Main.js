@@ -1,5 +1,6 @@
 import React from 'react';
 import api from '../utils/Api';
+import Card from './Card';
 
 function Main(props) {
   const [userName, setUserName] = React.useState();
@@ -18,7 +19,7 @@ function Main(props) {
     .catch((err) => {
       console.log(err);
     })
-  });
+  }, []);
 
   return (
     <main className="main">
@@ -37,17 +38,7 @@ function Main(props) {
       <section className="elements">
         <ul className="elements__list">
           {cards.map((card) => (
-            <li className="element" key={card._id}>
-              <img className="element__image" src={card.link} alt={card.name} />
-              <button className="element__delete-button" type="button" aria-label="Удалить"></button>
-              <div className="element__image-title-container">
-                <h2 className="element__title">{card.name}</h2>
-                <div className="element__like-container">
-                  <button className="element__like-button" type="button" aria-label="Нравится"></button>
-                  <p className="element__like-counter">{card.likes.length}</p>
-                </div>
-              </div>
-            </li>
+            <Card key={card._id} card={card} onCardClick={props.onCardClick} />
           ))}
         </ul>
       </section>

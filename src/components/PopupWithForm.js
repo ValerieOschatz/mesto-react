@@ -17,12 +17,10 @@ function PopupWithForm(props) {
     if (props.isOpen) {
       document.addEventListener('mousedown', handleOverlayClick);
       document.addEventListener('keydown', handleEscClose);
-      console.log('open');
 
       return () => {
         document.removeEventListener('mousedown', handleOverlayClick);
         document.removeEventListener('keydown', handleEscClose);
-        console.log('close');
       }
     }
   });
