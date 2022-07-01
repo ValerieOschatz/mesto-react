@@ -2,27 +2,13 @@ import React from 'react';
 
 function ImagePopup(props) {
   React.useEffect(() => {
-    function handleOverlayClick(evt) {
-      if (evt.target.classList.contains('popup_opened')) {
-        props.onClose();
-      }
-    }
-
-    function handleEscClose(evt) {
-      if (evt.key === 'Escape') {
-        props.onClose();
-      }
-    }
-
     if (props.card) {
-      document.addEventListener('mousedown', handleOverlayClick);
-      document.addEventListener('keydown', handleEscClose);
-      console.log('open');
+      document.addEventListener('mousedown', props.onOverlayClick);
+      document.addEventListener('keydown', props.onEscClose);
 
       return () => {
-        document.removeEventListener('mousedown', handleOverlayClick);
-        document.removeEventListener('keydown', handleEscClose);
-        console.log('close');
+        document.removeEventListener('mousedown', props.onOverlayClick);
+        document.removeEventListener('keydown', props.onEscClose);
       }
     }
   });

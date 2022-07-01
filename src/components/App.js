@@ -10,7 +10,7 @@ function App() {
   const [isEditProfilePopupOpen,  setEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen,  setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen,  setEditAvatarPopupOpen] = React.useState(false);
-  const [selectedCard,  setSelectedCard] = React.useState();
+  const [selectedCard,  setSelectedCard] = React.useState(null);
 
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
@@ -24,15 +24,27 @@ function App() {
     setEditAvatarPopupOpen(true);
   }
 
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  }
+
   function closeAllPopups() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setEditAvatarPopupOpen(false);
-    setSelectedCard('');
+    setSelectedCard(null);
   }
 
-  function handleCardClick(card) {
-    setSelectedCard(card);
+  function handleOverlayClick(evt) {
+    if (evt.target.classList.contains('popup')) {
+      closeAllPopups();
+    }
+  }
+
+  function handleEscClose(evt) {
+    if (evt.key === 'Escape') {
+      closeAllPopups();
+    }
   }
 
   return (
@@ -59,7 +71,9 @@ function App() {
           } 
           buttonText="Сохранить"
           isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups} />
+          onClose={closeAllPopups}
+          onOverlayClick={handleOverlayClick}
+          onEscClose={handleEscClose} />
 
         <PopupWithForm
           name="add"
@@ -78,7 +92,9 @@ function App() {
           }
           buttonText="Создать"
           isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups} />
+          onClose={closeAllPopups}
+          onOverlayClick={handleOverlayClick}
+          onEscClose={handleEscClose} />
 
         <PopupWithForm
           name="change-avatar"
@@ -93,11 +109,13 @@ function App() {
           }
           buttonText="Сохранить"
           isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups} />
+          onClose={closeAllPopups}
+          onOverlayClick={handleOverlayClick}
+          onEscClose={handleEscClose} />
 
-        <PopupWithForm name="delete" title="Вы уверены?" buttonText="Да" />
+        <PopupWithForm name="delete" title="Вы уверены?" buttonText="Да" onOverlayClick={handleOverlayClick} onEscClose={handleEscClose} />
 
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} onOverlayClick={handleOverlayClick} onEscClose={handleEscClose} />
       </div>
     </div>
   );

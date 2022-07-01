@@ -2,25 +2,13 @@ import React from 'react';
 
 function PopupWithForm(props) {
   React.useEffect(() => {
-    function handleOverlayClick(evt) {
-      if (evt.target.classList.contains('popup_opened')) {
-        props.onClose();
-      }
-    }
-
-    function handleEscClose(evt) {
-      if (evt.key === 'Escape') {
-        props.onClose();
-      }
-    }
-
     if (props.isOpen) {
-      document.addEventListener('mousedown', handleOverlayClick);
-      document.addEventListener('keydown', handleEscClose);
+      document.addEventListener('mousedown', props.onOverlayClick);
+      document.addEventListener('keydown', props.onEscClose);
 
       return () => {
-        document.removeEventListener('mousedown', handleOverlayClick);
-        document.removeEventListener('keydown', handleEscClose);
+        document.removeEventListener('mousedown', props.onOverlayClick);
+        document.removeEventListener('keydown', props.onEscClose);
       }
     }
   });
