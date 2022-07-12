@@ -1,4 +1,3 @@
-import React from 'react';
 import useClose from "../utils/useClose";
 
 function ImagePopup({ card, onClose }) {

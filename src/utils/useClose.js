@@ -12,7 +12,7 @@ export default function useClose(isOpen, handleClose) {
 
     function handleEscClose(evt) {
       if (evt.key === 'Escape') {
-      handleClose();
+        handleClose();
       }
     }
 

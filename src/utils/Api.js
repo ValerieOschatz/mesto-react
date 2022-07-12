@@ -61,6 +61,14 @@ class Api {
     .then((res) => this._checkServerRes(res));
   }
 
+  changeLikeCardStatus(cardId, status) {
+    if (status) {
+      return this.addCardLike(cardId);
+    } else {
+      return this.removeCardLike(cardId);
+    }
+  }
+
   deleteCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
