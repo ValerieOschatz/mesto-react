@@ -1,9 +1,8 @@
-import { useState, useEffect, useContext } from 'react';
-import api from '../utils/Api';
+import { useContext } from 'react';
 import Card from './Card';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, cards, onCardLike, onCardDelete }) {
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onDeleteIconClick, cards, onCardLike }) {
   const currentUser = useContext(CurrentUserContext);
 
   return (
@@ -26,9 +25,9 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, cards, onC
             <Card key={card._id}
             card={card}
             onCardClick={onCardClick}
+            onDeleteIconClick={onDeleteIconClick}
             currentUser={currentUser}
-            onCardLike={onCardLike}
-            onCardDelete={onCardDelete} />
+            onCardLike={onCardLike} />
           ))}
         </ul>
       </section>

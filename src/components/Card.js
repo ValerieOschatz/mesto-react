@@ -1,4 +1,4 @@
-function Card({ card, onCardClick, currentUser, onCardLike, onCardDelete }) {
+function Card({ card, onCardClick, onDeleteIconClick, currentUser, onCardLike }) {
   const isOwn = card.owner._id === currentUser._id;
   const cardDeleteButtonClassName = `element__delete-button ${!isOwn && 'element__delete-button_hidden'}`;
 
@@ -14,7 +14,7 @@ function Card({ card, onCardClick, currentUser, onCardLike, onCardDelete }) {
   }
 
   function handleDeleteClick() {
-    onCardDelete(card);
+    onDeleteIconClick(card);
   }
 
   return (
