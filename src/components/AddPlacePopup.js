@@ -13,6 +13,11 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
     setLink(evt.target.value);
   }
 
+  useEffect(() => {
+    setPlace('');
+    setLink('');
+  }, [isOpen]);
+
   function handleSubmit(evt) {
     evt.preventDefault();
   
@@ -21,11 +26,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       link
     });
   }
-
-  useEffect(() => {
-    setPlace('');
-    setLink('');
-  }, [isOpen]);
 
   return (
     <PopupWithForm
@@ -36,11 +36,29 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       onClose={onClose}
       onSubmit={handleSubmit}>
         <label className="popup__form-field">
-          <input className="popup__input" type="text" id="name" name="name" placeholder="Название" required minLength="2" maxLength="30" onChange={handleChangePlace} value={place} />
+          <input
+            className="popup__input"
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Название"
+            required
+            minLength="2"
+            maxLength="30"
+            onChange={handleChangePlace}
+            value={place} />
           <span className='popup__input-error name-error'></span>
         </label>
         <label className="popup__form-field">
-          <input className="popup__input" type="url" id="link" name="link" placeholder="Ссылка на картинку" required onChange={handleChangeLink} value={link} />
+          <input
+            className="popup__input"
+            type="url"
+            id="link"
+            name="link"
+            placeholder="Ссылка на картинку"
+            required
+            onChange={handleChangeLink}
+            value={link} />
           <span className='popup__input-error link-error'></span>
         </label>
     </PopupWithForm>

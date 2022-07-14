@@ -7,20 +7,20 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
 import ImagePopup from './ImagePopup';
-import api from '../utils/Api';
+import api from '../utils/test';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import './App.css';
 
 function App() {
-  const [isEditProfilePopupOpen,  setEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen,  setAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen,  setEditAvatarPopupOpen] = useState(false);
-  const [isDeleteCardPopupOpen,  setDeleteCardPopupOpen] = useState(false);
-  const [isLoading,  setLoading] = useState(false);
-  const [selectedCard,  setSelectedCard] = useState(null);
-  const [deletedCard,  setDeletedCard] = useState(null);
-  const [currentUser,  setCurrentUser] = useState({});
-  const [cards,  setCards] = useState([]);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+  const [isDeleteCardPopupOpen, setDeleteCardPopupOpen] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [deletedCard, setDeletedCard] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
