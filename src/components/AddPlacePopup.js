@@ -2,28 +2,33 @@ import { useState, useEffect } from 'react';
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
-  const [place, setPlace] = useState('');
-  const [link, setLink] = useState('');
+  const [place, setPlace] = useState({ place: '', isValid: true, errorText: '' });
+  const [link, setLink] = useState({ link: '', isValid: true, errorText: '' });
+  const formValidity = place.isValid && link.isValid;
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   function handleChangePlace(evt) {
-    setPlace(evt.target.value);
+    setPlace({ place: evt.target.value, isValid: evt.target.validity.valid, errorText: evt.target.validationMessage });
+    setButtonDisabled(link.link ? false : true);
   }
 
   function handleChangeLink(evt) {
-    setLink(evt.target.value);
+    setLink({ link: evt.target.value, isValid: evt.target.validity.valid, errorText: evt.target.validationMessage });
+    setButtonDisabled(place.place ? false : true);
   }
 
   useEffect(() => {
-    setPlace('');
-    setLink('');
+    setPlace({ place: '', isValid: true, errorText: '' });
+    setLink({ link: '', isValid: true, errorText: '' });
+    setButtonDisabled(true);
   }, [isOpen]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
   
     onAddPlace({
-      name: place,
-      link
+      name: place.place,
+      link: link.link
     });
   }
 
@@ -34,10 +39,12 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       buttonText={isLoading ? "Создание..." : "Создать"}
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+      isValid={formValidity}
+      isButtonDisabled={isButtonDisabled}>
         <label className="popup__form-field">
           <input
-            className="popup__input"
+            className={`popup__input ${!place.isValid && 'popup__input_type_error'}`}
             type="text"
             id="name"
             name="name"
@@ -46,20 +53,24 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
             minLength="2"
             maxLength="30"
             onChange={handleChangePlace}
-            value={place} />
-          <span className='popup__input-error name-error'></span>
+            value={place.place} />
+          <span className={`popup__input-error profileName-error ${!place.isValid && 'popup__input-error_visible'}`}>
+            {!place.isValid && place.errorText}
+          </span>
         </label>
         <label className="popup__form-field">
           <input
-            className="popup__input"
+            className={`popup__input ${!link.isValid && 'popup__input_type_error'}`}
             type="url"
             id="link"
             name="link"
             placeholder="Ссылка на картинку"
             required
             onChange={handleChangeLink}
-            value={link} />
-          <span className='popup__input-error link-error'></span>
+            value={link.link} />
+          <span className={`popup__input-error profileName-error ${!link.isValid && 'popup__input-error_visible'}`}>
+            {!link.isValid && link.errorText}
+          </span>
         </label>
     </PopupWithForm>
   );

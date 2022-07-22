@@ -1,19 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
-  const avatarRef = useRef();
+  const [avatar, setAvatar] = useState({ avatar: '', isValid: true, errorText: '' });
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
+
+  function handleChangeAvatar(evt) {
+    setAvatar({ avatar: evt.target.value, isValid: evt.target.validity.valid, errorText: evt.target.validationMessage });
+    setButtonDisabled(false);
+  }
 
   function handleSubmit(evt) {
     evt.preventDefault();
   
     onUpdateAvatar({
-      avatar: avatarRef.current.value
+      avatar: avatar.avatar
     });
   }
 
   useEffect(() => {
-    avatarRef.current.value = '';
+    setAvatar({ avatar: '', isValid: true, errorText: '' });
+    setButtonDisabled(true);
   }, [isOpen]);
 
   return (
@@ -23,17 +30,22 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
       buttonText={isLoading ? "Сохранение..." : "Сохранить"}
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+      isValid={avatar.isValid}
+      isButtonDisabled={isButtonDisabled}>
         <label className="popup__form-field">
           <input
-            className="popup__input"
+            className={`popup__input ${!avatar.isValid && 'popup__input_type_error'}`}
             type="url"
             id="avatar"
             name="avatar"
             placeholder="Ссылка на картинку"
             required
-            ref={avatarRef} />
-          <span className="popup__input-error avatar-error"></span>
+            value={avatar.avatar}
+            onChange={handleChangeAvatar} />
+          <span className={`popup__input-error profileName-error ${!avatar.isValid && 'popup__input-error_visible'}`}>
+            {!avatar.isValid && avatar.errorText}
+          </span>
         </label>
     </PopupWithForm>
   );
